@@ -81,3 +81,9 @@ function binaryToString(str) {
         return String.fromCharCode(parseInt(v, 2));
     });
 }
+
+function convert() {
+    const binaryInput = document.getElementById("binary").value;
+    const text = binaryToString(binaryInput);
+    document.getElementById("result").innerText = text;
+}
