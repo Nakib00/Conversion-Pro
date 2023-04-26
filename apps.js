@@ -2,33 +2,8 @@ let indec = document.getElementById("dec-in");
 let inbin = document.getElementById("bin-in");
 let inoct = document.getElementById("oct-in");
 let inhex = document.getElementById("hex-in");
+let text = document.getElementById("Textarea");
 let errorMessageElement = document.getElementById("error");
-
-// convert string to binary
-// function convert() {
-//   const input = document.getElementById("Textarea").value;
-//   const output = document.getElementById("bin-text");
-//   let binary = textToBinary(input);
-//   output.value = binary;
-// }
-// // Text to binary function
-// function textToBinary(text) {
-//   let binary = "";
-//   for (let i = 0; i < text.length; i++) {
-//     let charCode = text.charCodeAt(i);
-//     let charBinary = charCode.toString(2);
-//     binary += charBinary.padStart(8, "0");
-//   }
-//   return binary;
-// }
-
-// convart decmal to octal
-// indec.addEventListener("input", ()=>{
-//     let decvalue = parseInt(indec.value);
-
-//     let octal = decimalToOctal(decvalue);
-//     inoct.value = octal;
-// })
 
 // convart decmal to binary
 indec.addEventListener("input", () => {
@@ -49,6 +24,7 @@ inbin.addEventListener("input", () => {
     indec.value = dec;
     inoct.value = dec.toString(8);
     inhex.value = dec.toString(16);
+    
     errorMessageElement.textContent = "";
   } else {
     errorMessageElement.textContent = "Enter valid binary value";
@@ -82,3 +58,26 @@ inhex.addEventListener("input", () => {
   inoct.value = dec.toString(8);
   inbin.value = dec.toString(2);
 });
+
+// convert text to binary, octal, hexadecimal, decimal
+text.addEventListener("input", ()=>{
+    let binaryResult = "";
+
+    for (let i = 0; i < text.value.length; i++) {
+        const binaryChar = text.value[i].charCodeAt(0).toString(2);
+        binaryResult += "0".repeat(8 - binaryChar.length) + binaryChar;
+    }
+
+    inbin.value = binaryResult;
+    let dec = parseInt(binaryResult, 2);
+    indec.value = dec;
+    inoct.value = dec.toString(8);
+    inhex.value = dec.toString(16);
+});
+
+// Binary to Text
+function binaryToString(str) {
+    return str.replace(/[01]{8}/g, function (v) {
+        return String.fromCharCode(parseInt(v, 2));
+    });
+}
