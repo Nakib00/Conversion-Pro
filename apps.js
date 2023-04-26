@@ -1,39 +1,62 @@
 let indec = document.getElementById("dec-in");
 let inbin = document.getElementById("bin-in");
+let inoct = document.getElementById("oct-in");
+let inhex = document.getElementById("hex-in");
 let errorMessageElement = document.getElementById("error");
 
 // convert string to binary
-function convert() {
-  const input = document.getElementById("Textarea").value;
-  const output = document.getElementById("bin-text");
-  let binary = textToBinary(input);
-  output.value = binary;
-}
+// function convert() {
+//   const input = document.getElementById("Textarea").value;
+//   const output = document.getElementById("bin-text");
+//   let binary = textToBinary(input);
+//   output.value = binary;
+// }
+// // Text to binary function
+// function textToBinary(text) {
+//   let binary = "";
+//   for (let i = 0; i < text.length; i++) {
+//     let charCode = text.charCodeAt(i);
+//     let charBinary = charCode.toString(2);
+//     binary += charBinary.padStart(8, "0");
+//   }
+//   return binary;
+// }
 
-// convart binary to string
+// convart decmal to octal
+// indec.addEventListener("input", ()=>{
+//     let decvalue = parseInt(indec.value);
+
+//     let octal = decimalToOctal(decvalue);
+//     inoct.value = octal;
+// })
 
 
 // convart decmal to binary
 indec.addEventListener("input", () => {
   let decvalue = parseInt(indec.value);
 
-  inbin.value = decvalue.toString(2);
+    if(decvalue){
+        inbin.value = decvalue.toString(2);
+        inhex.value = decimalToHexadecimal(decvalue);
+        inoct.value = decimalToOctal(decvalue);
+    }
 });
 
-// convart binary to decimal
+// convart binary to decimal, octal, hexadecimal
 inbin.addEventListener("input", () => {
   let binvalue = inbin.value;
 
   // if binary is valide then convart it to decimal
   if (binvalidator(binvalue)) {
     indec.value = parseInt(binvalue, 2);
+    inoct.value = binaryToOctal(binvalue);
+    inhex.value = binaryToHexadecimal(binvalue);
     errorMessageElement.textContent = "";
   } else {
     errorMessageElement.textContent = "Enter valid binary value";
     console.log("Error");
   }
 });
-
 // binary validator function
 function binvalidator(num) {
   for (let i = 0; i < num.length; i++) {
@@ -44,7 +67,29 @@ function binvalidator(num) {
   return true;
 }
 
-// Decimal to Octal convert
+// Convert octal to decimal, binary, hexadecimal
+inoct.addEventListener("input",() => {
+    let octvalue = parseInt(inoct.value);
+
+    if(octvalue){
+        inbin.value = octalToBinary(octvalue);
+        indec.value = octalToDecimal(octvalue);
+        inhex.value = octalToHexadecimal(octvalue);
+    }
+});
+
+// convart hexadeciamal to decimal, binary, octal
+inhex.addEventListener("input", () => {
+    let hexvalue = inhex;
+
+    if(hexvalue){
+        indec.value = hexadecimalToDecimal(hexvalue);
+        inbin.value = hexadecimalToBinary(hexvalue);
+        inoct.value = hexadecimalToOctal(hexvalue);
+    }
+});
+
+// Decimal to Octal
 function decimalToOctal(decimalNumber) {
   let octalNumber = 0,
     i = 1;
@@ -58,18 +103,18 @@ function decimalToOctal(decimalNumber) {
   return octalNumber;
 }
 
-// Octal to Decimal
+// Octal to Decimal function
 function octalToDecimal(octalNumber) {
-  let decimalNumber = 0,
-    i = 0;
-
-  while (octalNumber !== 0) {
-    decimalNumber += (octalNumber % 10) * Math.pow(8, i);
-    i++;
-    octalNumber = Math.floor(octalNumber / 10);
-  }
-
-  return decimalNumber;
+    let decimalNumber = 0,
+      i = 0;
+  
+    while (octalNumber !== 0) {
+      decimalNumber += (octalNumber % 10) * Math.pow(8, i);
+      i++;
+      octalNumber = Math.floor(octalNumber / 10);
+    }
+  
+    return decimalNumber;
 }
 
 // Octal to Binary
@@ -207,17 +252,6 @@ function hexadecimalToOctal(hexadecimalNumber) {
   }
 
   return octalNumber;
-}
-
-// Text to binary
-function textToBinary(text) {
-  let binary = "";
-  for (let i = 0; i < text.length; i++) {
-    let charCode = text.charCodeAt(i);
-    let charBinary = charCode.toString(2);
-    binary += charBinary.padStart(8, "0");
-  }
-  return binary;
 }
 
 // Binary to text
