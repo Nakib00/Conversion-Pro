@@ -40,23 +40,59 @@ function binvalidator(num) {
   }
   return true;
 }
+// Octal validator function
+function octalvalidator(num) {
+  for (let i = 0; i < num.length; i++) {
+    if (num[i] == "8" || num[i] == "9") {
+      return false;
+    }
+  }
+  return true;
+}
+// hexadecimal validator function
+function hexavalidatorl(num) {
+  // Regular expression to match hexadecimal numbers
+  const hexRegex = /^[0-9A-Fa-f]+$/;
+  
+  if (hexRegex.test(num)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 // Convert octal to decimal, binary, hexadecimal
 inoct.addEventListener("input", () => {
-  let octvalue = parseInt(inoct.value);
+  let octvalue = inoct.value;
   let dec = parseInt(octvalue, 8);
 
-  indec.value = dec;
-  inbin.value = dec.toString(2);
-  inhex.value = dec.toString(16);
+  if(octalvalidator(octvalue)){
+    indec.value = dec;
+    inbin.value = dec.toString(2);
+    inhex.value = dec.toString(16);
+
+    errorMessageElement.textContent = "";
+  }else{
+    errorMessageElement.textContent ="Enter valid Octal value";
+  }
+  
 });
 
 // convart hexadeciamal to decimal, binary, octal
 inhex.addEventListener("input", () => {
+  let hexavalue = inhex.value;
   let dec = parseInt(inhex.value, 16);
-  indec.value = dec;
-  inoct.value = dec.toString(8);
-  inbin.value = dec.toString(2);
+
+  if(hexavalidatorl(hexavalue)){
+    indec.value = dec;
+    inoct.value = dec.toString(8);
+    inbin.value = dec.toString(2);
+
+    errorMessageElement.textContent = "";
+  }else{
+    errorMessageElement.textContent = "Enter valid Hexadecimal value";
+  }
+
 });
 
 // convert text to binary, octal, hexadecimal, decimal
